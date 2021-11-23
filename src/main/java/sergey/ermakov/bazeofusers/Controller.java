@@ -89,14 +89,14 @@ public class Controller {
     public ArrayList<String> getusersbyage(@PathVariable("age") int age){
         ArrayList<String> a =new ArrayList<>();
         for (int i=age-5;i<=age+5;i++){
-            List<User> arr=userRepository.findByAge(age);
+            List<User> arr=userRepository.findByAge(i);
             for (User u:arr){
                 a.add(u.toString());
             }
         };
         return a;
     }
-
+//curl -X GET http://localhost:8080/api/users/getsorted?sort=age
     @GetMapping("/users/getsorted")
     public ArrayList<String> getuserssorted(@RequestParam("sort") String sort){
         ArrayList<String> str=new ArrayList<>();
@@ -116,16 +116,16 @@ public class Controller {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
-
+    //curl -X GET 'http://localhost:8080/api/users/getsortedwithdirection?sort=age&sortdirection=up'
     @GetMapping("/users/getsortedwithdirection")
     public ArrayList<String> getuserssortedwithdirection (@RequestParam("sort") String sort,@RequestParam("sortdirection") String sortdirection){
         ArrayList<String> str=new ArrayList<>();
         if (sort.equals("age")){
             List<User> a;
             if (sortdirection.equals("up")) {
-                a = userRepository.findAll(Sort.by(Sort.Direction.ASC,"age"));
+                a = userRepository.findByOrderByAgeAsc();
             } else if (sortdirection.equals("down")) {
-                a = userRepository.findAll(Sort.by(Sort.Direction.DESC,"age"));
+                a = userRepository.findByOrderByAgeDesc();
             } else{
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
             };
@@ -136,9 +136,9 @@ public class Controller {
         } else if (sort.equals("name")){
             List<User> a;
             if (sortdirection.equals("up")) {
-                a = userRepository.findAll(Sort.by(Sort.Direction.ASC,"name"));
+                a = userRepository.findByOrderByNameAsc();
             } else if (sortdirection.equals("down")) {
-                a = userRepository.findAll(Sort.by(Sort.Direction.DESC,"name"));
+                a = userRepository.findByOrderByNameDesc();
             } else{
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
             };
