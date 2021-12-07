@@ -8,8 +8,8 @@ public interface UserRepository extends JpaRepository<User,Long> {
     List<User> findByAge(int age);
     List<User> findByOrderByAgeAsc();
     List<User> findByOrderByAgeDesc();
-    List<User> findByOrderByNameAsc();
-    List<User> findByOrderByNameDesc();
+    List<User> findByOrderByLastnameAsc();
+    List<User> findByOrderByLastnameDesc();
 
 
 }

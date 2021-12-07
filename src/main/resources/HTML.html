@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.
+min.css" integrity="sha384-
+ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    </script>
+    <script src="scripts.js"></script>
+</head>
+<body>
+         <table id="userTable" border="3" width="500" cellpadding="5" cellspacing="3"  >
+             <thead>
+             <tr>
+                 <th>Firstname</th>
+                 <th>Lastname</th>
+             </tr>
+             </thead>
+         </table>
+         <p> </p>
+         <p><b>User Information</b></p>
+ <div class="form-group1" style="text-indent:5px;" >
+     <label for="firstname">Firstname</label>
+     <input type="text" id="firstname"  class="form-control"/>
+ </div>
+         <p> </p>
+<div class="form-group" style="text-indent:5px;">
+    <label for="lastname">Lastname</label>
+    <input type="text" id="lastname" class="form-control"/>
+</div>
+<div class="row" style="text-indent:25px;">
+    <div class="col-xs-12" >
+        <button type="button"
+                id="updateButton"
+                class="btn btn-primary"
+                onclick="updateClick();">
+            Add
+        </button>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+ userList();
+ });
+</script>

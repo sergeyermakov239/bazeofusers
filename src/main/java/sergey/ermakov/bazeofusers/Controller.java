@@ -18,7 +18,7 @@ public class Controller {
     public Controller(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-//curl -X POST http://localhost:8080/api/users/postuser/password   -H 'Content-Type: application/json' -d'{"name":"Sergey","age":17,"password":"password"}'
+//curl -X POST http://localhost:8080/api/users/postuser/password   -H 'Content-Type: application/json' -d'{"firstname":"Sergey","lastname":"Ermakov","age":17,"password":"password"}'
     @PostMapping("/users/postuser/{repeatpassword}")
     public void addUser(@PathVariable("repeatpassword") String repeatpassword,@RequestBody User user){
         if (!repeatpassword.equals(user.getPassword())){
@@ -27,12 +27,23 @@ public class Controller {
             ArrayList<User> a = new ArrayList<>();
             userRepository.findAll().forEach(a::add);
             for (User u : a) {
-                if (user.getName().equals(u.getName())) {
+                if (user.getFirstname().equals(u.getFirstname())&&user.getLastname().equals(u.getLastname())) {
                     throw new ResponseStatusException(HttpStatus.CONFLICT);
                 }
             }
             userRepository.save(user);
         }
+    }
+    @PostMapping("/users/postuser")
+    public void addUser(@RequestBody User user){
+        ArrayList<User> a = new ArrayList<>();
+        userRepository.findAll().forEach(a::add);
+        for (User u : a) {
+            if (user.getFirstname().equals(u.getFirstname())&&user.getLastname().equals(u.getLastname())) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT);
+            }
+        }
+        userRepository.save(user);
     }
 
     @GetMapping("/users/getall")
@@ -56,7 +67,7 @@ public class Controller {
             return u1.toString();
         }
     }
-//curl -X DELETE http://localhost:8080/api/users/deleteuser/1234567890
+//curl -X DELETE http://localhost:8080/api/users/deleteuser/1
     @DeleteMapping("/users/deleteuser/{id}")
     public void deleteUserbyid (@PathVariable("id") long id){
         Optional<User> a=userRepository.findById(id);
@@ -66,7 +77,7 @@ public class Controller {
             userRepository.deleteById(id);
         }
     }
-//curl -X PUT http://localhost:8080/api/users/updateuser/1234567890/password -H 'Content-Type: application/json' -d '{"name":"Sergey","age":17,"password":"password1"}'
+//curl -X PUT http://localhost:8080/api/users/updateuser/1234567890/password -H 'Content-Type: application/json' -d '{"firstname":"Sergey","lastname":"Ermakov","age":17,"password":"password1"}'
     @PutMapping("/users/updateuser/{id}/{repeatpassword}")
     public void updateUserbyid (@PathVariable("repeatpassword") String repeatpassword,@PathVariable("id") long id,@RequestBody User user) {
         if (!repeatpassword.equals(user.getPassword())) {
@@ -78,7 +89,8 @@ public class Controller {
             } else {
                 User u1 = a.get();
                 u1.setAge(user.getAge());
-                u1.setName(user.getName());
+                u1.setFirstname(user.getFirstname());
+                u1.setLastname(user.getLastname());
                 u1.setPassword(user.getPassword());
                 userRepository.save(u1);
             }
@@ -107,7 +119,7 @@ public class Controller {
             }
             return str;
         } else if (sort.equals("name")){
-            List<User> a=userRepository.findByOrderByNameAsc();
+            List<User> a=userRepository.findByOrderByLastnameAsc();
             for (User u:a){
                 str.add(u.toString());
             }
@@ -136,9 +148,9 @@ public class Controller {
         } else if (sort.equals("name")){
             List<User> a;
             if (sortdirection.equals("up")) {
-                a = userRepository.findByOrderByNameAsc();
+                a = userRepository.findByOrderByLastnameAsc();
             } else if (sortdirection.equals("down")) {
-                a = userRepository.findByOrderByNameDesc();
+                a = userRepository.findByOrderByLastnameDesc();
             } else{
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
             };

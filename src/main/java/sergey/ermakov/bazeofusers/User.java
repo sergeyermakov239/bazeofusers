@@ -1,28 +1,44 @@
 package sergey.ermakov.bazeofusers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="users")
 public class User {
     @Id
+    @JsonProperty("id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column(name = "name")
-    private String name;
-    @Column (name="password")
+    @JsonProperty("firstname")
+    @Column(name="firstname")
+    private String firstname;
+    @JsonProperty ("lastname")
+    @Column(name="lastname")
+    private String lastname;
+    @JsonProperty ("password")
+    @Column(name="password")
     private String password;
-    @Column (name="age")
+    @JsonProperty("age")
+    @Column(name="age")
     private int age;
 
     public User(){
 
     }
 
-    public  User(String name,int age,String password){
-        this.name=name;
+    public  User(String firstname,String lastname,int age,String password){
+        this.firstname=firstname;
+        this.lastname=lastname;
         this.age=age;
         this.password=password;
+    }
+    public User(String firstname,String lastname){
+        this.firstname=firstname;
+        this.lastname=lastname;
+        this.age=18;
+        this.password="password";
     }
 
     public long getId(){
@@ -37,16 +53,24 @@ public class User {
         return age;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public void setAge(int age) {
@@ -55,7 +79,7 @@ public class User {
 
     @Override
     public String toString(){
-        return "User [id="+id+", name="+name+", age=" +age+" ] ";
+        return "User [id="+id+", name="+firstname+", lastname="+lastname+", age=" +age+" ] ";
     }
 }
 
